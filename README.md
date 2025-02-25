@@ -1,177 +1,165 @@
-# Phase 3 Code Challenge: Articles - without SQLAlchemy (Updated)
+# Magazine Domain - Python Code Challenge
+This project simulates a Magazine domain with classes for Author, Magazine, and Article. The relationships between these classes represent a real-world scenario where an author writes articles for various magazines, and each magazine contains multiple articles by different authors. The solution implements object-oriented principles, including object relationships, aggregation, and data integrity constraints.
 
-In this code challenge, you will be working with a Magazine domain.
+# Table of Contents
+Overview
+Installation
+Classes
+Author
+Magazine
+Article
+Methods
+Author Methods
+Magazine Methods
+Article Methods
+Testing
+Usage Example
+Contributing
+License
+Overview
+# The system consists of three primary classes:
 
-We have three models: `Author`, `Article`, and `Magazine`.
+Author: Represents an author who can write articles for different magazines.
+Magazine: Represents a magazine that publishes articles.
+Article: Represents a single article written by an author for a magazine.
+The relationships between these classes are as follows:
 
-For our purposes, an `Author` has many `Article`s, a `Magazine` has many
-`Article`s, and `Article`s belong to both `Author` and `Magazine`.
+An Author can write many Articles.
+A Magazine can have many Articles.
+An Article belongs to one Author and one Magazine.
+An Author can contribute to multiple Magazines, and a Magazine can have multiple Authors.
+Installation
+Follow these steps to set up the project:
 
-`Author` - `Magazine` is a many to many relationship.
+Clone the repository: Clone this repository to your local machine using Git:
 
-**Note**: You should draw your domain on paper or on a whiteboard _before you
-start coding_. Remember to identify a single source of truth for your data.
+bash
+Copy
+git clone https://github.com/your-username/magazine-domain.git
+cd magazine-domain
+Set up the virtual environment: Install pipenv if it's not already installed. Follow these instructions for Fedora or other systems:
 
-## Instructions
+bash
+Copy
+sudo dnf install python3-pip  # Fedora: Install pip if it's missing
+python3 -m pip install --user pipenv  # Install pipenv
+Install dependencies: Once inside the project directory, run the following command to install the project dependencies using pipenv:
 
-To get started, run `pipenv install` while inside of this directory. Then run
-`pipenv shell` to jump into the shell.
+bash
+Copy
+pipenv install
+Activate the virtual environment: Activate the virtual environment with the following command:
 
-Build out all of the methods listed in the deliverables. The methods are listed
-in a suggested order, but you can feel free to tackle the ones you think are
-easiest. Be careful: some of the later methods rely on earlier ones.
+bash
+Copy
+pipenv shell
+Classes
+Author
+The Author class represents an individual author in the system. An author can write multiple articles and contribute to multiple magazines.
 
-**Remember!** This code challenge has tests to help you check your work. You can
-run `pytest` to make sure your code is functional before submitting.
+Attributes:
+name (str): The author's name. Must be a non-empty string.
+articles (list): A list that holds all articles written by the author.
+Methods:
+add_article(magazine, title): Adds an article written by the author to a specific magazine.
+articles(): Returns a list of articles the author has written.
+magazines(): Returns a list of unique magazines the author has contributed to.
+topic_areas(): Returns a list of unique categories of magazines the author has contributed to.
+Magazine
+The Magazine class represents a magazine that publishes articles from various authors.
 
-We've provided you with a tool that you can use to test your code. To use it,
-run `python lib/debug.py` from the command line. This will start a `ipdb`
-session with your classes defined. You can test out the methods that you write
-here. You can add code to the `lib/debug.py` file to define variables and create
-sample instances of your objects.
+Attributes:
+name (str): The magazine's name. Must be between 2 and 16 characters.
+category (str): The category/genre of the magazine (e.g., "Technology", "Health").
+articles (list): A list of articles published in the magazine.
+Methods:
+article_titles(): Returns a list of titles of all articles in the magazine.
+contributors(): Returns a list of unique authors who have written for the magazine.
+contributing_authors(): Returns a list of authors who have written more than 2 articles for the magazine.
+top_publisher(): A class method that returns the magazine with the most articles.
+Article
+The Article class represents an article written by an author and published in a magazine.
 
-Writing error-free code is more important than completing all of the
-deliverables listed - prioritize writing methods that work over writing more
-methods that don't work. You should test your code in the console as you write.
+Attributes:
+author (Author): The author of the article.
+magazine (Magazine): The magazine where the article is published.
+title (str): The title of the article.
+Methods:
+title: Returns the title of the article.
+author: Returns the author of the article.
+magazine: Returns the magazine the article is published in.
+Methods
+Author Methods
+add_article(magazine, title): Creates a new Article instance and associates it with the author and the provided magazine.
 
-Similarly, messy code that works is better than clean code that doesn't. First,
-prioritize getting things working. Then, if there is time at the end, refactor
-your code to adhere to best practices. When you encounter duplicated logic,
-extract it into a shared helper method.
+articles(): Returns a list of all articles written by the author.
 
-**Before you submit!** Save and run your code to verify that it works as you
-expect. If you have any methods that are not working yet, feel free to leave
-comments describing your progress.
+magazines(): Returns a unique list of magazines the author has contributed to.
 
-## Core Deliverables
+topic_areas(): Returns a list of unique categories (topics) of magazines the author has written for.
 
-Write the following methods in the classes in the files provided. Feel free to
-build out any helper methods if needed.
+Magazine Methods
+article_titles(): Returns a list of the titles of all articles published in the magazine.
 
-### Initializers and Properties
+contributors(): Returns a unique list of authors who have written for this magazine.
 
-#### Author
+contributing_authors(): Returns a list of authors who have written more than 2 articles for this magazine.
 
-- `Author __init__(self, name)`
-  - Author is initialized with a name
-- `Author property name`
-  - Returns the author's name
-  - Names must be of type `str`
-  - Names must be longer than 0 characters
-  - Should **not be able** to change after the author is instantiated.
-  - _hint: hasattr()_
+top_publisher(): Class method that returns the magazine with the most articles.
 
-#### Magazine
+Article Methods
+title: Returns the title of the article.
 
-- `Magazine __init__(self, name, category)`
-  - A magazine is initialized with a name and a category
-- `Magazine property name`
-  - Returns the magazine's name
-  - Names must be of type `str`
-  - Names must be between 2 and 16 characters, inclusive
-  - Should **be able** to change after the magazine is instantiated.
-- `Magazine property category`
-  - Returns the magazine's category
-  - Categories must be of type `str`
-  - Categories must be longer than 0 characters
-  - Should **be able** to change after the magazine is instantiated.
+author: Returns the author of the article.
 
-#### Article
+magazine: Returns the magazine where the article was published.
 
-- `Article __init__(self, author, magazine, title)`
-  - Article is initialized with an `Author` instance, a `Magazine` instance, and
-    a title.
-- `Article property title`
-  - Returns the article's title
-  - Titles must be of type `str`
-  - Titles must be between 5 and 50 characters, inclusive
-  - Should **not be able** to change after the article is instantiated.
-  - _hint: hasattr()_
+Testing
+This project comes with built-in tests that verify the functionality of the methods. To run the tests:
 
-### Object Relationship Methods and Properties
+Ensure you're in the virtual environment:
 
-#### Article
+bash
+Copy
+pipenv shell
+Run the tests using pytest:
 
-- `Article property author`
-  - Returns the author object for that article
-  - Must be of type `Author`
-  - Authors **can be changed** after the article object is initialized
-- `Article property magazine`
-  - Returns the magazine object for that article
-  - Must be of type `Magazine`
-  - Magazines **can be changed** after the article object is initialized
+bash
+Copy
+pytest test.py
+pytest will automatically discover and run the test cases, providing feedback on whether everything is working as expected.
 
-#### Author
+Usage Example
+Here is an example of how to use the classes:
 
-- `Author articles()`
-  - Returns a list of all the articles the author has written
-  - Must be of type `Article`
-- `Author magazines()`
-  - Returns a **unique** list of magazines for which the author has contributed
-    to
-  - Must be of type `Magazine`
+python
+Copy
+# Import the classes
+from author import Author
+from magazine import Magazine
+from article import Article
 
-#### Magazine
+# Create authors
+author1 = Author("John Doe")
+author2 = Author("Jane Smith")
 
-- `Magazine articles()`
-  - Returns a list of all the articles the magazine has published
-  - Must be of type `Article`
-- `Magazine contributors()`
-  - Returns a **unique** list of authors who have written for this magazine
-  - Must be of type `Author`
+# Create magazines
+magazine1 = Magazine("Tech Today", "Technology")
+magazine2 = Magazine("Health Weekly", "Health")
 
-### Aggregate and Association Methods
+# Add articles to authors and magazines
+author1.add_article(magazine1, "The Future of AI")
+author2.add_article(magazine1, "Tech Trends 2025")
+author1.add_article(magazine2, "Staying Fit in a Digital World")
 
-#### Author
+# Check the author's contributions
+print(author1.articles())  # List of articles by John Doe
+print(author2.magazines())  # List of magazines Jane Smith contributed to
 
-- `Author add_article(magazine, title)`
-  - Receives a `Magazine` instance, and a title as arguments
-  - Creates and returns a new `Article` instance and associates it with that
-    author, the magazine provided
-- `Author topic_areas()`
-  - Returns a **unique** list of strings with the categories of the magazines
-    the author has contributed to
-  - Returns `None` if the author has no articles
+# Check the magazine's contributors
+print(magazine1.contributors())  # List of authors who wrote for Tech Today
+Contributing
+If you'd like to contribute to this project, feel free to open an issue or submit a pull request. Please ensure that your code is well-tested and follows Python's PEP 8 style guide.
 
-#### Magazine
-
-- `Magazine article_titles()`
-  - Returns a list of the titles strings of all articles written for that
-    magazine
-  - Returns `None` if the magazine has no articles
-- `Magazine contributing_authors()`
-  - Returns a list of authors who have written more than 2 articles for the
-    magazine
-  - Authors must be of type `Author`
-  - Returns `None` if the magazine has no authors with more than 2 publications
-
-### Advanced Deliverables
-
-These deliverables are not required to pass the code challenge, but if you have
-the extra time, or even after the code challenge, they are a great way to
-stretch your skills.
-
-#### Bonus: Aggregate and Association Method
-
-- `Magazine classmethod top_publisher()`
-  - Returns the `Magazine` instance with the most articles
-  - Returns `None` if there are no articles.
-  - Uncomment lines 206-224 in the magazine_test file
-  - _hint: will need a way to remember all magazine objects_
-
-#### Bonus: For any invalid inputs raise an `Exception`
-
-- First, **comment out** the following lines
-  - **article_test.py**
-    - lines 28-29
-  - **author_test.py**
-    - lines 31-32, and 35-36
-  - **magazine_test.py**
-    - lines 31-32, 47-48, 51-52, 84-85, and 100-102
-- Then, **uncomment** the following lines in the test files
-  - **article_test.py**
-    - lines 34-35, 46-47, and 50-51
-  - **author_test.py**
-    - lines 39-40, and 53-54
-  - **magazine_test.py**
-    - lines 35-36, 55-56, 59-60, 90-91, and 105-106
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
